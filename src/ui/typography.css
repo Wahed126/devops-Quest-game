@@ -1,0 +1,189 @@
+/* All type values come from typography.ts, shared with Phaser. */
+:root {
+  font-family: var(--font-ui);
+  font-size: var(--text-ui);
+  font-weight: var(--weight-regular);
+  line-height: var(--line-body);
+  letter-spacing: var(--tracking-body);
+}
+button, a, input, textarea, summary { font: inherit; }
+p, .hint-text, details, .mission-feedback, .dialogue-copy {
+  font-size: var(--text-body);
+  line-height: var(--line-body);
+  letter-spacing: var(--tracking-body);
+}
+h1, .wordmark, .chapter-card h2, .game-brand > div,
+.modal[data-screen="terminal"] .modal-header h2,
+.modal[data-screen="complete"] .modal-header h2 {
+  font-family: var(--font-heading);
+  font-weight: var(--weight-semibold);
+  line-height: var(--line-heading);
+  letter-spacing: var(--tracking-heading);
+}
+h1 {
+  font-size: clamp(var(--text-titleSmall), 5.2vw, var(--text-title));
+  font-weight: var(--weight-bold);
+  line-height: var(--line-title);
+}
+h1 em { font-weight: inherit; font-style: normal; }
+h2, .modal-header h2 { font-size: var(--text-heading); font-weight: var(--weight-semibold); line-height: var(--line-heading); }
+h3, .modal-body h3 { font-family: var(--font-ui); font-size: var(--text-subheading); font-weight: var(--weight-semibold); line-height: var(--line-heading); }
+strong, b { font-weight: var(--weight-semibold); }
+.wordmark, .game-brand > div { font-size: var(--text-ui); }
+.game-brand small { font-family: var(--font-ui); font-size: var(--text-label); font-weight: var(--weight-medium); line-height: var(--line-body); }
+.eyebrow, .edition, .title-note, .title-footer, .chapter-card p,
+.controls, .forest-location, .progress-line span, .mission-state,
+.terminal-bar, .beacon-control label, .completion-stats span {
+  font-family: var(--font-ui);
+  font-size: var(--text-label);
+  font-weight: var(--weight-medium);
+  line-height: var(--line-body);
+  letter-spacing: var(--tracking-label);
+}
+.eyebrow { font-weight: var(--weight-semibold); }
+.title-description, .completion-intro, .empty-note,
+.setting-row p, .settings-note p, .journal-entry p, .journal-mission p,
+.simulation-note { font-size: var(--text-body); line-height: var(--line-body); }
+.primary, .secondary, .small, .text-button, .hud-button, .button-row button {
+  font-size: var(--text-ui);
+  font-weight: var(--weight-semibold);
+  line-height: var(--line-body);
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+#objective-text, #interact-prompt, #toast { font-size: var(--text-ui); line-height: var(--line-body); }
+.icon-button, .close-button, .brand-icon, .primary span,
+.card-arrow, #touch-controls button { font-size: var(--text-icon); line-height: 1; }
+.chapter-symbol { font-family: var(--font-heading); font-size: var(--text-ornament); }
+.completion-symbol { font-size: var(--text-achievement); }
+.completion-stats strong { font-family: var(--font-heading); font-size: var(--text-heading); font-weight: var(--weight-semibold); }
+.terminal-dots { font-size: var(--text-label); letter-spacing: var(--tracking-label); }
+.run-button { font-size: var(--text-subheading); }
+
+/* No ligatures or justified text in commands, paths, logs, or file contents. */
+pre, code, kbd, .shell-prompt, #command-input, #config-editor,
+.little-terminal, #channel-input, .journal-entry h3 {
+  font-family: var(--font-code);
+  font-size: var(--text-code);
+  font-weight: var(--weight-regular);
+  font-variant-ligatures: none;
+  font-feature-settings: "liga" 0, "calt" 0;
+  letter-spacing: var(--tracking-body);
+  line-height: var(--line-body);
+  text-align: left;
+}
+code, pre { white-space: pre-wrap; overflow-wrap: anywhere; }
+code { box-decoration-break: clone; padding: 1px 4px; }
+.journal-entry code { display: block; padding: 10px; }
+.journal-entry h3 { font-weight: var(--weight-medium); }
+kbd { font-size: var(--text-label); text-align: center; min-width: 26px; height: 28px; }
+.hud-button kbd { min-width: 24px; height: 25px; width: auto; }
+.shell-prompt b { font-weight: var(--weight-regular); }
+
+/* Larger type needs content-sized controls and panels, not reduced mobile type. */
+.title-content { max-width: 880px; padding-right: 24px; }
+.title-content > .eyebrow span { flex-shrink: 0; }
+.title-actions .primary { min-width: 260px; }
+.title-note { max-width: 580px; align-items: baseline; }
+.chapter-card { width: 410px; }
+.chapter-card p { white-space: normal; }
+.chapter-card h2 { font-size: var(--text-heading); }
+.title-footer { gap: 24px; }
+.title-footer .status-dot { font-size: var(--text-label); }
+.game-header { gap: 16px; align-items: flex-start; }
+.game-brand { min-width: 0; }
+.hud-actions { flex-shrink: 0; }
+.hud-button { min-height: 44px; }
+.objective { top: 116px; max-width: min(460px, calc(100% - 40px)); }
+.progress-line { flex-wrap: wrap; }
+.progress-line span { white-space: nowrap; }
+.forest-location { max-width: 340px; text-align: right; }
+#interact-prompt { max-width: calc(100% - 40px); white-space: normal; }
+#interact-prompt kbd { flex-shrink: 0; }
+.modal { width: min(760px, 100%); scrollbar-gutter: stable; }
+.modal.wide { width: min(1280px, 100%); }
+.modal-header > div, .modal-body, .mission-brief, .terminal-column,
+.journal-entry, .journal-mission > div, .dialogue-content > div { min-width: 0; }
+.modal-header h2 { overflow-wrap: anywhere; }
+.modal-header .close-button { align-self: flex-start; }
+.modal-body p { overflow-wrap: anywhere; }
+.terminal-layout { grid-template-columns: minmax(290px, .85fr) minmax(0, 1.55fr); gap: 30px; }
+.mission-brief h3 { font-size: var(--text-subheading); }
+.mission-brief > .eyebrow { flex-wrap: wrap; gap: 8px; }
+.concept { margin: 20px 0; }
+.terminal-bar { min-height: 48px; height: auto; gap: 10px; padding: 10px 14px; }
+#terminal-output { height: clamp(260px, 35vh, 400px); padding: 18px; }
+#terminal-form { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px; padding: 14px; }
+.shell-prompt { grid-column: 1 / -1; }
+#command-input { width: 100%; min-width: 0; padding: 7px 4px; }
+.run-button { width: 38px; height: 38px; }
+.beacon-control > div { flex-wrap: wrap; }
+.beacon-control input { flex: 1 1 220px; }
+.beacon-control button { flex: 0 0 auto; }
+#hint-button { line-height: var(--line-body); }
+.dialogue-content { align-items: flex-start; }
+.dialogue-copy { margin-top: 12px; }
+.button-row { gap: 12px; }
+.button-row button { flex: 0 1 auto; }
+.simulation-note { margin-top: 18px !important; }
+.completion-stats { flex-wrap: wrap; }
+.completion-stats > div { flex: 1 1 180px; }
+#config-editor { height: 240px; }
+.journal-mission > span { flex-shrink: 0; font-size: var(--text-ui); }
+.journal-entry { overflow-wrap: anywhere; }
+
+@media (max-width: 1000px) {
+  .edition { display: none; }
+  .title-header .icon-button { margin-left: auto; }
+  .terminal-layout { grid-template-columns: minmax(260px, 1fr) minmax(0, 1.35fr); gap: 22px; }
+  .chapter-card { width: 350px; }
+}
+@media (max-width: 760px) {
+  .title-screen { overflow-y: auto; }
+  .title-header { flex-shrink: 0; padding: 22px; }
+  .title-content { margin: auto 24px; padding: 20px 0 32px; max-width: calc(100% - 48px); }
+  .title-content h1 { font-size: clamp(var(--text-titleSmall), 6vw, var(--text-titleMedium)); }
+  .title-actions { align-items: stretch; }
+  .title-actions .primary, .title-actions .secondary { min-width: 0; width: 100%; }
+  .chapter-card { position: static; flex-shrink: 0; width: auto; margin: 0 24px 24px; padding: 18px 0; }
+  .chapter-card > div:nth-child(2) { min-width: 0; }
+  .chapter-card h2 { font-size: var(--text-headingSmall); }
+  .title-footer { flex-shrink: 0; padding: 20px 24px; }
+  .title-footer .status-dot { display: none; }
+  .terminal-layout { grid-template-columns: minmax(0, 1fr); }
+  .modal-header { padding: 20px 18px; }
+  .modal-header h2 { font-size: var(--text-headingSmall); }
+  .modal-body { padding: 20px 18px; }
+  .terminal-bar { flex-wrap: wrap; }
+  .terminal-dots { display: none; }
+  .button-row > button { flex: 1 1 180px; }
+  .dialogue-content { flex-direction: column; gap: 16px; }
+  .pip-portrait { width: 64px; height: 64px; }
+  .game-header { padding: 18px; gap: 10px; }
+  .game-brand { gap: 8px; }
+  .game-brand > div { font-size: var(--text-label); }
+  .game-brand small { max-width: 215px; }
+  .hud-actions { gap: 5px; }
+  .hud-button { min-width: 42px; padding: 8px; }
+  .hud-button span, .hud-button kbd { display: none; }
+  .objective { left: 18px; top: 124px; padding: 10px 12px; max-width: calc(100% - 36px); }
+  #objective-text { font-size: var(--text-ui); }
+  #journal-entries { grid-template-columns: minmax(0, 1fr); }
+  #interact-prompt { max-width: calc(100% - 28px); }
+  .completion-stats > div { flex-basis: 140px; }
+}
+@media (max-height: 600px) and (min-width: 761px) {
+  .title-screen { overflow-y: auto; }
+  .title-content { margin: 24px 7%; padding-bottom: 12px; }
+  .title-content h1 { font-size: var(--text-heading); }
+  .chapter-card { position: static; width: auto; margin: 12px 7%; }
+  .title-footer { flex-shrink: 0; }
+  .objective { top: 100px; }
+}
+
+/* Keep dismiss controls reachable when large learning panels need scrolling. */
+.modal-header { position: sticky; top: 0; z-index: 2; background: inherit; }
+.modal-body { scroll-margin-top: 140px; }
+#command-input, #config-editor, #journal-entries { scroll-margin-top: 160px; }
+/* The modal already announces its feedback; a transient duplicate must not cover it. */
+#modal-layer:not([hidden]) ~ #toast { visibility: hidden; }

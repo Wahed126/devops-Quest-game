@@ -1,0 +1,29 @@
+{
+  "name": "devops-quest",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0",
+    "build": "tsc --noEmit && vite build",
+    "build:pages": "tsc --noEmit && vite build --base=/devops-Quest-game/",
+    "typecheck": "tsc --noEmit",
+    "preview": "vite preview --host 0.0.0.0",
+    "test": "vitest run",
+    "test:ci": "node tests/ci.mjs",
+    "test:input": "node tests/input-probe.mjs",
+    "test:browser": "node tests/browser.mjs",
+    "test:production": "node tests/production.mjs",
+    "test:fonts": "node tests/fonts.mjs",
+    "test:typography": "node tests/browser.mjs --typography"
+  },
+  "dependencies": {
+    "phaser": "3.90.0"
+  },
+  "devDependencies": {
+    "typescript": "7.0.2",
+    "vite": "8.3.7",
+    "vitest": "5.1.0",
+    "@playwright/test": "1.65.0"
+  }
+}
