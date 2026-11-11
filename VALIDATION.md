@@ -1,5 +1,11 @@
 # Validation report
 
+## Blank-page recovery
+
+A fresh visit to the public game loaded successfully and completed the first mission with character-by-character input on desktop and mobile. Historical Actions jobs showed a competing default Jekyll deployment of the same source commit before the Vite deployment. That branch publisher can expose an unbuilt page; cached copies are a possible explanation for a blank page even after the production deployment is correct. Pages must use the GitHub Actions publishing source.
+
+Updated the README Play link with a new document version query and added a static loading screen that works before the game JavaScript or CSS arrives. A native retry link requests a fresh document, and JavaScript-disabled browsers receive visible guidance. Production checks deliberately blocked the entry bundle, verified visible recovery UI, restored downloads and followed the retry link successfully, checked the no-JavaScript state, and completed the typed first mission. The Pages build and TypeScript check passed.
+
 ## GitHub Pages preparation
 
 Added `.github/workflows/ci-pages.yml` with pull-request checks and deployment from `main`, a Node 22 version file, and a CI runner that manages a development server on an available temporary port. Browser scripts support system Chrome or installed Playwright Chromium.

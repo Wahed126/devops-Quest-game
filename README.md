@@ -2,9 +2,11 @@
 
 [![CI and GitHub Pages](https://github.com/Wahed126/devops-Quest-game/actions/workflows/ci-pages.yml/badge.svg)](https://github.com/Wahed126/devops-Quest-game/actions/workflows/ci-pages.yml)
 
-**[Play DevOps Quest in your browser](https://wahed126.github.io/devops-Quest-game/)** · [Source code](https://github.com/Wahed126/devops-Quest-game) · [Build and deployment status](https://github.com/Wahed126/devops-Quest-game/actions)
+**[Play DevOps Quest in your browser](https://wahed126.github.io/devops-Quest-game/?v=20261111-2)** · [Source code](https://github.com/Wahed126/devops-Quest-game) · [Build and deployment status](https://github.com/Wahed126/devops-Quest-game/actions)
 
 An original, playable browser platform adventure. In **Chapter 01: Linux Forest**, a young engineer and maintenance drone Pip reconnect a forest by practicing Linux commands. All gameplay runs locally in the browser. There is no backend, account, API key, or Docker requirement.
+
+If the game link opens an empty page after a deployment, use the **Play** link above to request the current version. You can also refresh with **Ctrl+Shift+R** (Windows/Linux) or **Cmd+Shift+R** (macOS). If a download fails, the loading screen offers **Load a fresh copy**. The game requires JavaScript; enable it and open the link in a browser that supports JavaScript if your link preview does not run the game.
 
 ## Run
 
@@ -36,7 +38,7 @@ The game is a static Vite application. GitHub Pages serves the production build 
 
 The workflow in [`.github/workflows/ci-pages.yml`](.github/workflows/ci-pages.yml) runs on pull requests and pushes to `main`, and can be started manually from Actions. It installs the lockfile dependencies, checks TypeScript, runs unit tests, plays the complete desktop/mobile chapters, checks local font loading, builds the Pages artifact, and tests the first mission under the actual `/devops-Quest-game/` URL prefix. Deployment runs only after those checks pass on `main`; pull requests only run checks.
 
-For a fresh repository, open **Settings → Pages → Build and deployment → Source → GitHub Actions** once. Then run **CI and GitHub Pages** from the Actions tab, or push a change to `main`. The `Publish game` job reports the published URL. Future successful pushes deploy automatically. Workflow permissions are limited to source reads during testing and Pages/OIDC writes during deployment; no personal token is required after Pages is enabled.
+For a fresh repository, open **Settings → Pages → Build and deployment → Source → GitHub Actions** once. Then run **CI and GitHub Pages** from the Actions tab, or push a change to `main`. The `Publish game` job reports the published URL. Future successful pushes deploy automatically. Keep the source set to **GitHub Actions**, rather than **Deploy from a branch**: the default Jekyll publisher cannot build this Vite game and can temporarily replace the playable site with unbuilt source. Workflow permissions are limited to source reads during testing and Pages/OIDC writes during deployment; no personal token is required after Pages is enabled.
 
 To reproduce the Pages build locally:
 
