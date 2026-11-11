@@ -33,6 +33,8 @@ try{
  await page.locator('#command-input').focus();await page.keyboard.type('cat /opt/beacon/config/beacon.conf',{delay:20});assert.equal(await page.locator('#command-input').inputValue(),'cat /opt/beacon/config/beacon.conf');await page.locator('#command-input').press('Enter');
  assert.match(await page.locator('#terminal-output').textContent(),/BEACON_CHANNEL=aurora/);
  await page.locator('#channel-input').fill('aurora');await page.locator('#channel-form button').click();assert.match(await page.locator('#mission-feedback').textContent(),/beacon remembers/);
+ await page.locator('#modal-layer').waitFor({state:'hidden',timeout:5000});
+ assert.equal(await page.locator('#hud').isVisible(),true,'Successful tuning automatically returns to gameplay');
  assert.equal(await page.evaluate(()=>typeof window.__quest),'undefined','Production omits development instrumentation');assert.deepEqual(errors,[]);assert.deepEqual(failedRequests,[],'Production assets load beneath the configured base path');
- console.log('PASS: blocked bundle shows a visible loading/retry screen; retry recovers with a fresh URL; JavaScript-disabled guidance is visible; production assets and typed first-mission commands work; no runtime errors or development instrumentation.');
+ console.log('PASS: blocked bundle shows a visible loading/retry screen; retry recovers with a fresh URL; JavaScript-disabled guidance is visible; production assets, typed first-mission commands, and automatic return after tuning work; no runtime errors or development instrumentation.');
 }finally{await browser?.close();await new Promise(resolve=>server.httpServer.close(resolve));}

@@ -2,7 +2,7 @@
 
 [![CI and GitHub Pages](https://github.com/Wahed126/devops-Quest-game/actions/workflows/ci-pages.yml/badge.svg)](https://github.com/Wahed126/devops-Quest-game/actions/workflows/ci-pages.yml)
 
-**[Play DevOps Quest in your browser](https://wahed126.github.io/devops-Quest-game/?v=20261111-2)** · [Source code](https://github.com/Wahed126/devops-Quest-game) · [Build and deployment status](https://github.com/Wahed126/devops-Quest-game/actions)
+**[Play DevOps Quest in your browser](https://wahed126.github.io/devops-Quest-game/?v=20261111-3)** · [Source code](https://github.com/Wahed126/devops-Quest-game) · [Build and deployment status](https://github.com/Wahed126/devops-Quest-game/actions)
 
 An original, playable browser platform adventure. In **Chapter 01: Linux Forest**, a young engineer and maintenance drone Pip reconnect a forest by practicing Linux commands. All gameplay runs locally in the browser. There is no backend, account, API key, or Docker requirement.
 
@@ -65,7 +65,7 @@ Read Pip’s introduction or skip it. Walk east to the amber terminal. Every puz
 
 ### The complete chapter
 
-1. **The Sleeping Beacon:** navigate directories, read `/opt/beacon/config/beacon.conf`, and enter its channel into the beacon control. The light bridge appears.
+1. **The Sleeping Beacon:** navigate directories, read `/opt/beacon/config/beacon.conf`, and enter its channel into the beacon control. The light bridge appears. After a three-second confirmation, the terminal closes automatically so you can continue east.
 2. **The Rootbound Crossing:** inspect `/opt/bridge/start.sh`, add execute permission with `chmod +x` or `chmod 755`, then run it. The mechanical bridge opens.
 3. **The Heart of the Network:** inspect `beacon` status and logs; edit `/etc/beacon/beacon.conf`, save a valid port, and restart the service. The final lift powers up.
 4. Walk east to the lift and interact. Ride into the canopy for a completion panel, then continue exploring or replay with reset confirmation.

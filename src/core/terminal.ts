@@ -86,9 +86,9 @@ export class Terminal {
    }
   }
  }
- tune(channel: string): CommandResult {
-  if(!this.state.readConfig)return {output:'Read the beacon configuration first so you can verify its channel. Try cat with the configuration path.'};
-  if(channel.trim()!=='aurora')return {output:'That channel does not match the configuration. Look for BEACON_CHANNEL in beacon.conf.'};
-  this.state.channel=channel.trim();reconcile(this.state);return {output:'Channel aurora locked. Beacon online. The light-path is restored.'};
+ tune(channel: string): CommandResult & {success:boolean} {
+  if(!this.state.readConfig)return {success:false,output:'Read the beacon configuration first so you can verify its channel. Try cat with the configuration path.'};
+  if(channel.trim()!=='aurora')return {success:false,output:'That channel does not match the configuration. Look for BEACON_CHANNEL in beacon.conf.'};
+  this.state.channel=channel.trim();reconcile(this.state);return {success:true,output:'Channel aurora locked. Beacon online. The light-path is restored.'};
  }
 }

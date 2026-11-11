@@ -8,7 +8,7 @@ export class UI {
  private root:HTMLElement; private modal:HTMLElement; private title:HTMLElement; private hud:HTMLElement;
  private terminal:Terminal; private history:string[]=[];private historyIndex=0;private draft='';
  private lines:string[]=[]; private currentMission:Mission=missions[0];private screen='';private previousFocus:HTMLElement|null=null;
- private toastTimer=0;private scene?:ForestScene;private dialogueIndex=0;private saveWarned=false;
+ private toastTimer=0;private autoCloseTimer=0;private scene?:ForestScene;private dialogueIndex=0;private saveWarned=false;
  constructor(public bridge:GameBridge){
   this.terminal=new Terminal(bridge.state);this.root=$('#ui');
   this.root.innerHTML=`
@@ -61,6 +61,7 @@ export class UI {
   else {this.currentMission=missions.find(m=>m.id===target)!;this.openTerminal();}
  }
  private show(kind:string,title:string,body:string,wide=false){
+  this.cancelAutoClose();
   if(!this.screen)this.previousFocus=document.activeElement instanceof HTMLElement?document.activeElement:null;
   this.screen=kind;this.bridge.blocked=true;this.syncGameplayInput();this.modal.hidden=false;
   this.modal.innerHTML=`<section data-screen="${kind}" class="modal ${wide?'wide':''}" role="dialog" aria-modal="true" aria-labelledby="dialog-title"><header class="modal-header"><div><div class="eyebrow">DEVOPS QUEST <span>/</span> LINUX FOREST</div><h2 id="dialog-title">${title}</h2></div><button class="close-button" aria-label="Close dialog">×</button></header><div class="modal-body">${body}</div></section>`;
@@ -69,10 +70,22 @@ export class UI {
   this.modal.querySelector<HTMLElement>('input, textarea, button:not(.close-button)')?.focus();
  }
  private close(){
+  this.cancelAutoClose();
   if(this.screen==='editor'){this.cancelEditor();return;}
   this.screen='';this.modal.hidden=true;this.modal.replaceChildren();this.bridge.blocked=false;this.scene?.resetInput();this.previousFocus?.focus();this.previousFocus=null;
   if(this.bridge.active){(document.activeElement as HTMLElement|null)?.blur();}
   this.syncGameplayInput();
+ }
+ private cancelAutoClose(){window.clearTimeout(this.autoCloseTimer);this.autoCloseTimer=0;}
+ private returnToGameSoon(){
+  this.cancelAutoClose();
+  const dialog=this.modal.firstElementChild;
+  const note=document.createElement('p');note.className='simulation-note';note.textContent='Returning to the forest in 3 seconds…';$('#mission-feedback').append(note);
+  this.autoCloseTimer=window.setTimeout(()=>{
+   this.autoCloseTimer=0;
+   // Never dismiss an editor or another dialog opened during the confirmation.
+   if(this.screen==='terminal'&&this.modal.firstElementChild===dialog)this.close();
+  },3000);
  }
  private keydown(e:KeyboardEvent){
   if(e.key==='Escape'){e.preventDefault();if(this.screen)this.close();else if(this.bridge.active)this.pause();return;}
@@ -107,7 +120,16 @@ export class UI {
    }
   };
   $('#hint-button').onclick=()=>{s.hints[m.id]=Math.min(3,s.hints[m.id]+1);this.renderHints();this.persist();};
-  if(m.id==='signal')$('#channel-form').onsubmit=e=>{e.preventDefault();const before=s.completed.length;const result=this.terminal.tune($<HTMLInputElement>('#channel-input').value);this.feedback(result.output,s.completed.includes('signal'));this.afterCommand(before);};
+  if(m.id==='signal')$('#channel-form').onsubmit=e=>{
+   e.preventDefault();this.cancelAutoClose();
+   const before=s.completed.length,result=this.terminal.tune($<HTMLInputElement>('#channel-input').value);
+   this.feedback(result.output,result.success);this.afterCommand(before);
+   if(result.success){
+    $<HTMLInputElement>('#channel-input').disabled=true;
+    const button=$<HTMLButtonElement>('#channel-form button');button.disabled=true;button.textContent='Beacon tuned';
+    this.returnToGameSoon();
+   }
+  };
   $<HTMLInputElement>('#command-input').focus();
  }
  private submit(){

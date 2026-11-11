@@ -69,9 +69,17 @@ try{
  await typeInto('#command-input','history draft');await page.keyboard.press('ArrowUp');assert.equal(await page.locator('#command-input').inputValue(),'cat');await page.keyboard.press('ArrowDown');assert.equal(await page.locator('#command-input').inputValue(),'history draft');
  await command('pwd');await command('ls /');await command('cd /opt/beacon/config');await command('cat /opt/beacon/config/beacon.conf');await page.locator('#hint-button').click();
  await textEditing('#channel-input');await typeInto('#channel-input','wrong');await page.locator('#channel-form button').click();assert.match(await page.locator('#mission-feedback').textContent(),/does not match/);
+ await page.waitForTimeout(3200);assert.equal((await snap()).blocked,true,'Wrong channel keeps the terminal open');
+ await inspect('terminal',{heading:'Cinzel',scroll:'#command-input'});await page.screenshot({path:'test-results/terminal-desktop.png'});
  await typeInto('#channel-input','aurora');await page.locator('#channel-form button').click();assert.deepEqual((await snap()).state.completed,['signal']);
- await inspect('terminal',{heading:'Cinzel',scroll:'#command-input'});await page.screenshot({path:'test-results/terminal-desktop.png'});await close();await page.waitForTimeout(200);await page.screenshot({path:'test-results/game-desktop.png'});
+ assert.match(await page.locator('#mission-feedback').textContent(),/Returning to the forest in 3 seconds/);
+ const tuning=await snap();await page.waitForTimeout(1000);assert.equal((await snap()).blocked,true,'Confirmation stays visible briefly');assert.equal((await snap()).x,tuning.x,'Player stays still during confirmation');
+ await page.locator('#modal-layer').waitFor({state:'hidden',timeout:5000});await page.waitForTimeout(200);await page.screenshot({path:'test-results/game-desktop.png'});
  const closed=await snap();assert.equal(closed.diagnostics.keyboardEnabled,true);assert.equal(closed.diagnostics.capturing,true);
+ // A dismissed confirmation must never close a newly reopened terminal.
+ await page.keyboard.press('e');await typeInto('#channel-input','aurora');await page.locator('#channel-form button').click();await page.keyboard.press('Escape');
+ await page.keyboard.press('e');await typeInto('#channel-input','wrong');await page.locator('#channel-form button').click();await page.waitForTimeout(3200);
+ assert.equal((await snap()).blocked,true,'Old timer and incorrect retuning never close the reopened terminal');assert.match(await page.locator('#mission-feedback').textContent(),/does not match/);assert.equal(await page.locator('#mission-feedback').evaluate(el=>el.classList.contains('success')),false);await close();
  await page.keyboard.down('d');await page.waitForTimeout(50);await page.keyboard.press('e');await page.locator('#command-input').waitFor();await page.keyboard.up('d');
  const stopped=await snap();await page.waitForTimeout(200);assert.equal((await snap()).x,stopped.x,'Opening while moving clears held velocity');assert.equal(await page.locator('#command-input').inputValue(),'');
  await page.keyboard.press('Escape');const released=await snap();await page.waitForTimeout(200);assert.equal((await snap()).x,released.x,'Closing clears held movement state');
@@ -98,10 +106,10 @@ try{
  const mobile=await snap();assert.ok(mobile.x-mobile.diagnostics.camera.scrollX>0&&mobile.x-mobile.diagnostics.camera.scrollX<mobile.diagnostics.camera.width,'Player stays inside mobile camera');
  await page.screenshot({path:'test-results/game-mobile.png'});
  // Finish a second, fresh chapter at the mobile viewport using the touch interaction.
- await page.locator('#touch-interact').click();await typeInto('#channel-input','aurora');await page.locator('#channel-form button').click();await close();
+ await page.locator('#touch-interact').click();await typeInto('#channel-input','aurora');await page.locator('#channel-form button').click();await page.locator('#modal-layer').waitFor({state:'hidden',timeout:5000});assert.equal((await snap()).blocked,false,'Mobile tuning automatically resumes gameplay');
  await walkTo(1870);await page.locator('#touch-interact').click();await command('ls -l /opt/bridge/start.sh');await command('chmod +x /opt/bridge/start.sh');await command('/opt/bridge/start.sh');await close();
  await walkTo(2850);await page.locator('#touch-interact').click();await command('systemctl status beacon');await command('journalctl -u beacon');await command('edit /etc/beacon/beacon.conf');await typeInto('#config-editor','PORT=8080\n');await page.locator('#save-editor').click();await command('systemctl restart beacon');assert.equal((await snap()).state.completed.length,3);await close();
  await walkTo(3290);await page.locator('#touch-interact').click();await page.locator('#explore').waitFor();assert.equal((await snap()).state.finished,true);await page.screenshot({path:'test-results/completion-mobile.png'});
  assert.deepEqual(errors,[],'No browser runtime or console errors');
- console.log('PASS: complete chapter through physical movement; keyboard isolation; both bridges; lift; reload/continue; journal; blur pause; settings; reset confirmation; touch movement; desktop/mobile overlays; no console errors.');
+ console.log('PASS: complete chapter through physical movement; keyboard isolation; beacon auto-close and timer cancellation; both bridges; lift; reload/continue; journal; blur pause; settings; reset confirmation; touch movement; desktop/mobile overlays; no console errors.');
 }catch(error){console.error('Browser errors:',errors);await page.screenshot({path:'test-results/failure.png'});throw error;}finally{await browser.close();}

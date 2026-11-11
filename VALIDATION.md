@@ -1,5 +1,11 @@
 # Validation report
 
+## Beacon confirmation and automatic return
+
+Successful Tune beacon submissions show confirmation for three seconds, close the terminal automatically, and restore normal gameplay controls. Incorrect channels remain open. Pending closes are canceled when a dialog is dismissed or replaced, so an old timer cannot close a reopened terminal or editor. Tuning reports success explicitly, including when an already restored beacon is given an incorrect channel.
+
+Passed TypeScript, all 38 unit tests, the Pages build, production smoke/recovery checks, and complete desktop/mobile browser journeys. Browser checks cover the delayed return, stationary character during confirmation, resumed keyboard capture and movement, invalid submissions staying open, and manual close/reopen canceling the previous timer. Updated the README Play link and loading-screen retry URL to request this release.
+
 ## Blank-page recovery
 
 A fresh visit to the public game loaded successfully and completed the first mission with character-by-character input on desktop and mobile. Historical Actions jobs showed a competing default Jekyll deployment of the same source commit before the Vite deployment. That branch publisher can expose an unbuilt page; cached copies are a possible explanation for a blank page even after the production deployment is correct. Pages must use the GitHub Actions publishing source.
